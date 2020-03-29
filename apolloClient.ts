@@ -9,7 +9,7 @@ export default function createApolloClient(initialState, ctx) {
   return new ApolloClient({
     ssrMode: Boolean(ctx),
     link: new HttpLink({
-      uri: `http://localhost:3000`,
+      uri: `http://localhost:3001/graphql`,
       credentials: "same-origin", // Additional fetch() options like `credentials` or `headers`
       fetch
     }),
