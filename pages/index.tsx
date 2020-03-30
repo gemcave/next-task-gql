@@ -1,6 +1,7 @@
 import { NextPage } from "next";
 import { withApollo } from "../lib/apollo";
 import { useTasksQuery, TaskStatus } from "../generated/graphql";
+import TaskList from "../components/TaskList";
 
 interface InitialProps {}
 
@@ -18,15 +19,7 @@ const IndexPage: NextPage<InitialProps, Props> = props => {
   if (loading) return <div>loading...</div>;
   if (error) return <div>{`Oops, error: ${error}`}</div>;
 
-  return tasks ? (
-    <ul>
-      {tasks.map(task => {
-        return <li key={task.id}>{task.title}</li>;
-      })}
-    </ul>
-  ) : (
-    <>No Tasks</>
-  );
+  return tasks ? <TaskList tasks={tasks} /> : <>No Tasks</>;
 };
 
 const IndexPageWithApollo = withApollo({ ssr: true })(IndexPage);
