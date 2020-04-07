@@ -2,6 +2,7 @@ import { NextPage } from "next";
 import { withApollo } from "../lib/apollo";
 import { useTasksQuery, TaskStatus } from "../generated/graphql";
 import TaskList from "../components/TaskList";
+import CreateTaskForm from "../components/CreateTaskForm";
 
 interface InitialProps {}
 
@@ -14,12 +15,17 @@ const IndexPage: NextPage<InitialProps, Props> = props => {
     }
   });
 
-  const tasks = data?.tasks;
+  const tasks = data && data.tasks ? data.tasks : [];
 
   if (loading) return <div>loading...</div>;
   if (error) return <div>{`Oops, error: ${error}`}</div>;
 
-  return tasks ? <TaskList tasks={tasks} /> : <>No Tasks</>;
+  return (
+    <>
+      <CreateTaskForm />
+      <TaskList tasks={tasks} />
+    </>
+  );
 };
 
 const IndexPageWithApollo = withApollo({ ssr: true })(IndexPage);
